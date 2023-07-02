@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <style>
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-font-smoothing: antialiased;
+      }
+      html,
+      body,
+      #app {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div> 
+    <script type="module">
+      import { defineConfig, renderStudio } from "https://esm.sh/sanity"
+      import { deskTool } from "https://esm.sh/sanity/desk"
+      import {schemaTypes} from "./schema"
+
+      // Define the actions that should be available for singleton documents
+      const singletonActions = new Set(["publish", "discardChanges", "restore"])
+
+      // Define the singleton document types
+      const singletonTypes = new Set(["settings"])
+
+      const config = defineConfig({
+        name: "serai",
+        title: "Avern Starter",
+
+        projectId: 'sm3dxrpw',
+        dataset: 'plateau',
+
+        plugins: [
+          deskTool({
+            structure: (S) =>
+              S.list()
+                .title("Content")
+                .items([
+
+                  // Our singleton type has a list item with a custom child
+                  S.listItem()
+                    .title("Settings")
+                    .id("settings")
+                    .child(
+                      // Instead of rendering a list of documents, we render a single
+                      // document, specifying the `documentId` manually to ensure
+                      // that we're editing the single instance of the document
+                      S.document()
+                        .schemaType("settings")
+                        .documentId("settings")
+                    ),
+
+                  // // Regular document types
+                  S.documentTypeListItem("interaction").title("Interactions"),
+                  // S.documentTypeListItem("author").title("Authors"),
+                ]),
+          })
+        ],
+
+        schema: {
+          types: schemaTypes,
+
+          // Filter out singleton types from the global “New document” menu options
+          templates: (templates) =>
+            templates.filter(({ schemaType }) => !singletonTypes.has(schemaType)),
+        },
+
+        document: {
+          // For singleton types, filter out actions that are not explicitly included
+          // in the `singletonActions` list defined above
+          actions: (input, context) =>
+            singletonTypes.has(context.schemaType)
+              ? input.filter(({ action }) => action && singletonActions.has(action))
+              : input,
+        },
+      })
+      renderStudio(document.getElementById("app"), config);
+    </script>
+  </body>
+</html>

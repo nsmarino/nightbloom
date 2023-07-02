@@ -1,0 +1,28 @@
+#modal {
+    .inner-modal {
+        position: fixed;
+        background-color: black;
+        border: 1px solid white;
+        z-index: 2;
+        width: 300px;
+        max-height: 400px;
+        top: 50%;
+        right: 50%;
+        transform: translateY(-50%) translateX(50%);
+        h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+        }
+    }
+    .modal-bg {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: black;
+        opacity: 0.2;
+        z-index: 1;
+    }
+}

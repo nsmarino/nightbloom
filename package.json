@@ -1,0 +1,51 @@
+{
+  "name": "avern-starter",
+  "version": "1.1.0",
+  "description": "Avern Starter",
+  "author": "Nicholas Marino",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "3d",
+    "threejs",
+    "three",
+    "vite"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alvarosabu/modern-three.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alvarosabu/modern-three/issues"
+  },
+  "homepage": "https://github.com/alvarosabu/modern-three#readme",
+  "contributors": [
+    "Alvaro <hola@alvarosaburido.dev>"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
+  },
+  "devDependencies": {
+    "@tweakpane/core": "^1.1.0",
+    "@tweakpane/plugin-essentials": "^0.1.5",
+    "@types/three": "^0.144.0",
+    "pathe": "^0.3.5",
+    "sass": "^1.57.1",
+    "three": "^0.144.0",
+    "tweakpane": "^3.1.0",
+    "typescript": "^4.8.2",
+    "vite": "^3.0.9",
+    "vite-plugin-glsl": "^0.3.0"
+  },
+  "dependencies": {
+    "@sanity/client": "^3.4.1",
+    "gsap": "^3.11.3",
+    "start-dom-jsx": "^1.0.0-beta.1",
+    "three-mesh-bvh": "^0.5.16",
+    "three-pathfinding": "^1.2.0",
+    "three_gpu_picking": "^1.0.4"
+  }
+}

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>staging</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta property="og:title" content="avern engine - staging link">
+    <meta name="twitter:title" content="avern engine - staging link">
+    
+    <meta name="description" content="WIP on caldera ward detective">
+    <meta property="og:description" content="WIP on caldera ward detective">
+    <meta name="twitter:description" content="WIP on caldera ward detective">
+    
+    <meta property="og:image" content="https://raw.githubusercontent.com/nsmarino/avern-frontend/main/public/claw.jpeg">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/nsmarino/avern-frontend/main/public/claw.jpeg">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+    <!-- body and start-menu styles are handled here to prevent flicker on initial page load. -->
+    <style type="text/css">
+        html, body, button {
+          cursor: url("/assets/ui/cursor.svg"), auto;
+        }
+
+        a {
+          cursor: url("/assets/ui/cursor-link.svg"), auto;
+        }
+        /* Root */
+        :root {
+        --camera-cursor: url("/assets/ui/cursor-camera.svg"), auto;
+        --pointer-cursor: url("/assets/ui/cursor.svg"), auto;
+        --target-vitality-width: 100%;
+        --player-vitality-width: 100%;
+        --player-mana-width: 100%;
+        --player-casting-width: 0%;
+
+        --avern-green: #56FBA1;
+        --avern-red: #EC6F6F;
+        --avern-blue: #C1C8FF;
+
+        --start-menu-primary: #444;
+        --start-menu-secondary: #EC6F6F;
+        --start-menu-gradient-outer: hsl(0, 0%, 100%);
+        --start-menu-gradient-inner: hsl(271, 20%, 33%);
+        }
+
+        html, body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            background-color: rgb(26, 32, 15);
+            color: white;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+            background: black;
+        }
+        .start-menu {
+          z-index: 1;
+          position: fixed;
+          height: 100vh;
+          width: 100%;
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-template-rows: 1fr;
+          grid-template-areas: "main";
+          justify-content: center;
+          align-items: center;
+          gap: 1rem;
+          background: black;
+        }
+
+        .start-menu section {
+          grid-area: main;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 14px;
+          margin-top: 200px;
+          height: 100%;
+        }
+        
+        .start-menu button {
+          background: linear-gradient(180deg, rgba(212, 212, 212, 0.8) 0%, rgba(94, 94, 94, 0.8) 100%);
+          border: none;
+          border-radius: 9px;
+          display: flex;
+          padding: 2px;
+          width: 100px;
+        }
+
+        .start-menu button span {
+          background: linear-gradient(180deg, rgba(48, 30, 3, 0.8) 0%, rgba(50, 50, 50, 0.8) 100%);;
+          border-radius: 9px;
+          border: none;
+          letter-spacing: 0.08em;
+          font-size: 9px;
+          font-family: Arial, Helvetica, sans-serif;
+          color: white;
+          font-weight: normal;
+          display: block;
+          width: 100%;
+          padding: 3px 12px;
+        }
+
+        .start-menu button:disabled {
+          opacity: 0.4;
+        }
+        .start-menu button:hover:not(:disabled) {
+          filter: brightness(1.25)
+
+        }
+        .start-menu footer {
+          justify-self: end;
+          text-align: center;
+          margin-top: 20px;
+        }
+        .start-menu footer a {
+          font-size: 12px;
+          text-transform: uppercase;
+          color: var(--avern-blue);
+          text-decoration: none;
+          display: flex;
+          gap: 4px;
+
+        }
+        .start-menu footer svg{
+          width: 15px;
+        }
+
+        .mask {
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          background: black;
+        }
+    </style>
+</head>
+<body>
+
+  <div class="start-menu">
+    <section class="start-menu-root">
+      <h1><svg width="277" height="42" viewBox="0 0 277 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0.88 1.82V0.2H17.92C21.88 0.2 24.9 1.2 26.98 3.2C29.06 5.16 30.1 7.78 30.1 11.06V12.8C30.1 16.08 29.06 18.72 26.98 20.72C24.9 22.72 21.88 23.72 17.92 23.72H10.72V36.14C10.72 37.54 10.78 38.38 10.9 38.66C11.02 38.9 11.4 39.04 12.04 39.08L16.54 39.44V41H0.88V39.44L4.18 39.08C4.82 39 5.2 38.84 5.32 38.6C5.44 38.36 5.5 37.54 5.5 36.14V5.06C5.5 3.66 5.44 2.84 5.32 2.6C5.2 2.36 4.82 2.2 4.18 2.12L0.88 1.82ZM17.92 2.12H10.72V21.8H17.92C22.36 21.8 24.58 19.08 24.58 13.64V10.22C24.58 4.82 22.36 2.12 17.92 2.12ZM67.0131 31.1H68.6331V41H41.3331V39.44L44.6331 39.08C45.2731 39 45.6531 38.84 45.7731 38.6C45.8931 38.36 45.9531 37.54 45.9531 36.14V5.06C45.9531 3.66 45.8931 2.84 45.7731 2.6C45.6531 2.36 45.2731 2.2 44.6331 2.12L41.3331 1.82V0.2H55.7931V1.82L52.4931 2.12C51.8531 2.2 51.4731 2.36 51.3531 2.6C51.2331 2.84 51.1731 3.66 51.1731 5.06V39.08H62.0331C62.9931 39.08 63.6731 39.06 64.0731 39.02C64.4731 38.94 64.7331 38.8 64.8531 38.6C65.0131 38.36 65.1531 38 65.2731 37.52L67.0131 31.1ZM86.612 39.44V41H75.212V39.44L78.452 39.08C78.892 39.04 79.212 38.98 79.412 38.9C79.612 38.78 79.792 38.54 79.952 38.18C80.152 37.78 80.392 37.1 80.672 36.14L92.252 0.2H96.032L107.732 36.14C108.012 37.1 108.232 37.78 108.392 38.18C108.592 38.54 108.792 38.78 108.992 38.9C109.192 38.98 109.492 39.04 109.892 39.08L113.192 39.44V41H98.612V39.44L101.912 39.08C102.552 39 102.892 38.84 102.932 38.6C103.012 38.32 102.832 37.5 102.392 36.14L99.932 28.46H85.292L82.832 36.14C82.392 37.5 82.192 38.32 82.232 38.6C82.312 38.84 82.672 39 83.312 39.08L86.612 39.44ZM85.892 26.54H99.332L92.612 5.66L85.892 26.54ZM116.8 0.2H148.72V9.98H147.16L145.42 3.68C145.3 3.2 145.16 2.86 145 2.66C144.88 2.42 144.62 2.28 144.22 2.24C143.82 2.16 143.14 2.12 142.18 2.12H135.4V36.14C135.4 37.54 135.46 38.36 135.58 38.6C135.7 38.84 136.08 39 136.72 39.08L140.02 39.44V41H125.56V39.44L128.86 39.08C129.5 39 129.88 38.84 130 38.6C130.12 38.36 130.18 37.54 130.18 36.14V2.12H123.34C122.42 2.12 121.74 2.16 121.3 2.24C120.9 2.28 120.62 2.42 120.46 2.66C120.34 2.86 120.22 3.2 120.1 3.68L118.36 9.98H116.8V0.2ZM185.595 31.22H187.155V41H158.415V39.44L161.715 39.08C162.355 39 162.735 38.84 162.855 38.6C162.975 38.36 163.035 37.54 163.035 36.14V5.06C163.035 3.66 162.975 2.84 162.855 2.6C162.735 2.36 162.355 2.2 161.715 2.12L158.415 1.82V0.2H186.375V9.98H184.875L183.135 3.68C183.015 3.2 182.875 2.86 182.715 2.66C182.595 2.42 182.335 2.28 181.935 2.24C181.535 2.16 180.855 2.12 179.895 2.12H168.255V19.46H176.295C177.255 19.46 177.935 19.44 178.335 19.4C178.735 19.32 178.995 19.18 179.115 18.98C179.275 18.74 179.415 18.38 179.535 17.9L180.675 13.4H182.235V27.44H180.675L179.535 22.94C179.415 22.46 179.275 22.12 179.115 21.92C178.995 21.68 178.735 21.54 178.335 21.5C177.935 21.42 177.255 21.38 176.295 21.38H168.255V39.08H180.615C181.575 39.08 182.255 39.06 182.655 39.02C183.055 38.94 183.315 38.8 183.435 38.6C183.595 38.36 183.735 38 183.855 37.52L185.595 31.22ZM207.62 39.44V41H196.22V39.44L199.46 39.08C199.9 39.04 200.22 38.98 200.42 38.9C200.62 38.78 200.8 38.54 200.96 38.18C201.16 37.78 201.4 37.1 201.68 36.14L213.26 0.2H217.04L228.74 36.14C229.02 37.1 229.24 37.78 229.4 38.18C229.6 38.54 229.8 38.78 230 38.9C230.2 38.98 230.5 39.04 230.9 39.08L234.2 39.44V41H219.62V39.44L222.92 39.08C223.56 39 223.9 38.84 223.94 38.6C224.02 38.32 223.84 37.5 223.4 36.14L220.94 28.46H206.3L203.84 36.14C203.4 37.5 203.2 38.32 203.24 38.6C203.32 38.84 203.68 39 204.32 39.08L207.62 39.44ZM206.9 26.54H220.34L213.62 5.66L206.9 26.54ZM264.733 1.82V0.2H276.193V1.82L272.893 2.12C272.253 2.2 271.873 2.36 271.753 2.6C271.633 2.84 271.573 3.66 271.573 5.06V27.14C271.573 31.7 270.513 35.26 268.393 37.82C266.313 40.34 263.113 41.6 258.793 41.6C254.073 41.6 250.453 40.22 247.933 37.46C245.453 34.7 244.213 30.9 244.213 26.06V5.06C244.213 3.66 244.153 2.84 244.033 2.6C243.913 2.36 243.533 2.2 242.893 2.12L239.593 1.82V0.2H254.053V1.82L250.753 2.12C250.113 2.2 249.733 2.36 249.613 2.6C249.493 2.84 249.433 3.66 249.433 5.06V26.96C249.433 31.24 250.233 34.42 251.833 36.5C253.473 38.58 255.953 39.62 259.273 39.62C262.633 39.62 265.153 38.56 266.833 36.44C268.513 34.32 269.353 31.24 269.353 27.2V5.06C269.353 3.66 269.293 2.84 269.173 2.6C269.053 2.36 268.673 2.2 268.033 2.12L264.733 1.82Z" fill="url(#paint0_linear_674_23)"/>
+        <defs>
+        <linearGradient id="paint0_linear_674_23" x1="138.5" y1="-4" x2="138.5" y2="40" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#FFF27A"/>
+        <stop offset="1" stop-color="#F6C67D"/>
+        </linearGradient>
+        </defs>
+        </svg>
+        </h1>
+      <button class="start-btn"><span>PLAYTEST</span></button>
+      <button class="fake-start-btn" disabled><span>New Game</span></button>
+      <button class="load-btn" disabled><span>Load Game</span></button>
+      <button class="options-btn" disabled><span>Options</span></button> <!-- Show/change controls layout etc-->
+      <footer><a href="https://www.avern.systems/"> <svg viewBox="0 0 35 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 28.9999C16.5087 25.1339 16.4712 24.5732 15 21.2631C14.3815 19.8713 13.5264 18.7749 13.5264 17.2105C13.5264 15.2281 14.0739 9.93673 15.7369 9.10522" stroke="var(--avern-blue)" stroke-linecap="round"/>
+        <path d="M15 23.1054C17.6666 20.3554 19.204 17.0219 20.731 13.6902C22.1036 10.6954 27.6457 10.5791 30.4737 10.5791" stroke="var(--avern-blue)" stroke-linecap="round"/>
+        <path d="M15 23.1052C19.4696 19.6134 21.8972 17.2925 27.1988 15.7778C28.236 15.4814 31.3767 15.1167 31.7836 14.0994C32.5451 12.1955 32.1349 9.04275 34.1579 8.36841" stroke="var(--avern-blue)" stroke-linecap="round"/>
+        <path d="M12.0526 12.7894C6.15117 9.41718 3.1066 8.05661 1 1.73682" stroke="var(--avern-blue)" stroke-linecap="round"/>
+        <path d="M10.5789 11.3158C9.62606 10.058 4.68421 5.97011 4.68421 4.31579C4.68421 2.76929 1.64622 2.29243 1 1" stroke="var(--avern-blue)" stroke-linecap="round"/>
+        </svg>
+        avern.systems</a></footer>
+    </section>
+
+    <section class="load-menu" style="opacity: 0; pointer-events: none;">
+      <h1><span>Load</span></h1>
+      <div class="stored-file">Village  | 24 | 3:26</div>
+      <div class="stored-file">Downstairs  | 14 | 0:37</div>
+      <div class="stored-file">Beside the battlefield (morning) | 33 | 5:51</div>
+      <div class="stored-file">Snowplain  | 40 | 7:09</div>
+      <div class="stored-file">Crevice  | 11 | 1:20</div>
+      <div class="stored-file">Village  | 22 | 3:12</div>
+      <button class="back-btn">back</button>
+    </section>
+
+    <section class="options-menu" style="opacity: 0; pointer-events: none;">
+      <h1><span>Options</span></h1>
+      <div class="option-field">Left-handed</div>
+      <div class="option-field">Audio</div>
+      <div class="option-field">Etc</div>
+      <button class="back-btn">back</button>
+    </section>
+  </div>
+
+  <div id="hud">
+    <div class="player-state">
+      <!-- Top Left -->
+      <div class="energy">
+        <div class="health"><div class="inner-health"></div></div>
+        <div class="mana"><div class="inner-mana"></div></div>
+      </div>
+      <!-- Top Right -->
+      <div class="xp"></div>
+    </div>
+
+    <!-- Top Center -->
+    <div class="target-bar" style="opacity: 0; pointer-events: none;">
+      <div class="target-vitality"></div>
+    </div>
+
+    <div class="player-input">
+      <!-- Bottom Left -->
+      <div class="equipped">
+        <div class="top-row">
+          <div id="KeyE" class="flask input-key locked">
+            <span>E</span>
+            <img class="svg" src="/assets/ui/flask.svg" alt="">
+          </div>
+
+          <div id="KeyR" class="restart-playtest input-key">
+            <span>R</span>
+            <span class="btn-text">RESTART<br>PLAYTEST</span> 
+          </div> 
+        </div>
+        <div class="main-row">
+          <div id="KeyA" class="equipment-action input-key action4 locked">
+            <span>A</span>
+          </div>
+
+          <div id="KeyS" class="equipment-action input-key action3 locked">
+            <span>S</span>
+          </div>
+
+          <div id="KeyD" class="equipment-action input-key action2">
+            <span>D</span>
+            <img class="svg" src="/assets/ui/aimed-shot.svg" alt="">
+          </div>
+
+          <div id="KeyF" class="equipment-action input-key action1">
+            <span>F</span>
+            <img class="svg" src="/assets/ui/muzzle-blast.svg" alt="">
+          </div>
+
+          <div id="KeyG" class="target-key input-key">           
+            <span>G</span>
+            <img class="svg" src="/assets/ui/target.svg" alt="">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Bottom Right -->
+      <div class="offhand">
+        <div class="top-row">
+          <div id="KeyU" class="open-menu input-key">
+            <span>U</span>
+            <img class="svg" src="/assets/ui/openMenu.svg" alt="">
+          </div>
+
+          <div id="KeyI" class="forward input-key">
+            <span>I</span>
+            <img class="svg" src="/assets/ui/forward.svg" alt="">
+          </div>
+        </div>
+
+        <div class="main-row">
+          <div id="KeyH" class="interact input-key">            
+            <span>H</span>
+            <img class="svg" src="/assets/ui/interact.svg" alt="">
+          </div>
+
+          <div id="KeyJ" class="left input-key">            
+            <span>J</span>
+            <img class="svg" src="/assets/ui/left.svg" alt="">
+          </div>
+
+          <div id="KeyK" class="back input-key">
+            <span>K</span>
+            <img class="svg" src="/assets/ui/back.svg" alt="">
+          </div>
+
+          <div id="KeyL" class="right input-key">
+            <span>L</span>
+            <img class="svg" src="/assets/ui/right.svg" alt="">
+          </div>
+
+          <div id="Semicolon" class="free-cam input-key">
+            <span>;</span>
+            <img class="svg" src="/assets/ui/camera.svg" alt="">
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div id="casting-bar" style="opacity: 0; pointer-events: none;">
+      <div class="inner-casting-bar"></div>
+    </div>
+
+    <!-- Bottom half of screen basically -->
+    <div class="interaction-prompt" style="display:none;"></div>
+  </div>
+
+  <div id="game-menu" style="opacity: 0; pointer-events: none;">
+    <div class="status">Game Paused</div>
+  </div>
+
+  <!-- provide context on hover in either hud or game-menu: -->
+  <div id="tooltip" style="opacity: 0; pointer-events: none;"></div>
+
+  <div id="narrative-controller" style="opacity: 0; pointer-events: none;">
+    <div class="text-container"></div>
+  </div>
+
+  <div class="prompt" style="opacity: 0; pointer-events: none;"></div>
+  
+  <div class="mask" style="opacity: 0; pointer-events: none;"></div><!-- Cover loading via gsap -->
+
+  <div id="modal"></div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

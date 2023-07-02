@@ -1,0 +1,42 @@
+/* Interactions (could still use a refactor maybe): */
+.prompt {
+width: 300px;
+background-color: black;
+color: white;
+position: fixed;
+bottom: 2rem;
+padding: 0.25rem;
+text-align: center;
+left: 50%;
+transform: translateX(-50%);
+}
+.prompt span {
+margin-left: 1rem;
+color: aquamarine;
+}
+#narrative-controller {
+width: 100%;
+height: 120px;
+background: linear-gradient(transparent, black);;
+position: fixed;
+left: 0rem;
+right: 0rem;
+bottom: 0rem;
+}
+#narrative-controller p {
+margin: 2rem 2rem 0.5rem 2rem;
+color: white;
+font-family: sans-serif;
+text-align: center;
+font-style: italic;
+}
+#narrative-controller .next-btn {
+position: absolute;
+right: 0;
+bottom:0;
+}
+#narrative-controller .close-btn {
+position: absolute;
+right: 0;
+top:0;
+}

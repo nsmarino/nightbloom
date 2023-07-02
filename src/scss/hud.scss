@@ -1,0 +1,163 @@
+
+    #hud .player-state .energy {
+      position: fixed;
+      top: 40px;
+      left: 40px;
+    }
+    #hud .open-menu {
+      position: relative;
+      z-index: 100;
+    }
+      #hud .player-state .energy .health {
+        height: 10px;
+        width: 200px;
+        background-color: black;
+        margin-bottom: 10px;
+      }
+        #hud .player-state .energy .health .inner-health { 
+          background-color: white;
+          width: var(--player-vitality-width);
+          height: 100%;
+        }
+      #hud .player-state .energy .mana {
+        height: 10px;
+        width: 200px;
+        background-color: #444;
+      }
+      #hud .player-state .energy .mana .inner-mana { 
+          background-color: darkgray;
+          width: var(--player-mana-width);
+          height: 100%;
+        }
+
+    #hud .player-state .xp {
+      position: fixed;
+      color: white;
+      top: 40px;
+      right: 40px;
+    }
+      #hud .player-state .xp span {
+        margin-left: 40px;
+      }
+
+  #hud .target-bar {
+    position: fixed;
+    background-color: black; 
+    top: 40px;
+    left: 40%;
+    right: 40%;
+    height: 10px;
+  }
+  #hud .target-bar .target-name {
+    color: white;
+    font-style: italic;
+    text-align: center;
+    margin: 0;
+    transform: translateY(-16px);
+    text-shadow: black 0px 0px 4px;
+  }
+  #hud .target-bar .target-vitality {
+    background-color: #EC6F6F;
+    width: var(--target-vitality-width);
+    height: 100%;
+    position: absolute;
+    top: 0;
+  }
+
+    #hud .player-input .equipped {
+      position: fixed;
+      bottom: 40px;
+      left: 40px;
+      display: flex;
+      flex-direction: column;
+    }
+      #hud .main-row .input-key, #hud .top-row .input-key {
+        border: 2px solid hsla(0, 0%, 83%, 1);
+        border-radius: 15px;
+        width: 50px;
+        height: 50px;
+        position: relative;
+      }
+      .input-key span {
+        position: absolute;
+        top: 4px;
+        right: 8px;
+        color: white;
+        font-family: sans-serif;
+        font-size: 12px;
+      }
+      #hud .player-input .equipped .main-row .input-key svg {
+        width: 55%;
+        height: 55%;
+        }
+    #hud .player-input .offhand {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+    }
+    #hud .player-input .offhand .top-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      margin-left: 58px;
+    }
+    #hud .player-input .equipped .top-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      margin-left: 110px;
+    }
+    #hud .player-input .offhand .main-row, #hud .player-input .equipped .main-row {
+      display: flex;
+      gap: 8px;
+    }
+    .offhand .input-key, .equipped .input-key {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(180deg, rgba(48, 30, 3, 0.1) 0%, rgba(50, 50, 50, 0.3) 100%);;
+    }
+    .input-key img {
+      width: 55%;
+      height: 55%;
+    }
+    .input-key.active {
+      filter: brightness(200%);
+      transform: translateY(4px);
+      transition: transform 0.2s ease-in-out;
+    }
+    .input-key.locked {
+      opacity: 0.2;
+    }
+    .input-key.restart-playtest {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .btn-text {
+        text-align: center;
+        position: unset !important;
+        display: block;
+      color: yellow;
+      font-size: 7px;
+      font-family: sans-serif;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+    }
+    }
+
+
+    #hud #casting-bar {
+      height: 10px;
+      width: 200px;
+      background-color: #444;
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #hud #casting-bar .inner-casting-bar { 
+        background-color: var(--avern-blue);
+        width: var(--player-casting-width);
+        height: 100%;
+      }
